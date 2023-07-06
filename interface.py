@@ -118,7 +118,7 @@ class BotInterface():
                         #     worksheet += 1  # уменьшение значения переменной 'worksheet' на единицу
 
                         # for worksheet in list:
-                        #     worksheet: user_id = worksheet**2
+                        #     worksheet: profile_id = worksheet**2
                         #     print(worksheet)
 
                         photos = self.vk_tools.get_photos(worksheet['id'])  # ищем фото к этой анкете
