@@ -114,12 +114,12 @@ class BotInterface():
                         # worksheet = 50 # объявление переменной 'worksheet' для условия цикла
                         # while worksheet < 50:  # ключевое слово 'while' и условие выполнение цикла-не более 50 раз
                         #     self.worksheets.pop() # тело цикла
-                        #     print(worksheet)  # вывод значения переменной 'worksheet'
+                        #     print(worksheet)  # выводg значения переменной 'worksheet'
                         #     worksheet += 1  # уменьшение значения переменной 'worksheet' на единицу
 
-                        # for worksheet in list:
-                        #     worksheet: profile_id = worksheet**2
-                        #     print(worksheet)
+                        for worksheet in list:
+                            worksheet: profile_id = worksheet**2
+                            print(worksheet)
 
                         photos = self.vk_tools.get_photos(worksheet['id'])  # ищем фото к этой анкете
                         photo_string = ''
