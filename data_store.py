@@ -48,9 +48,18 @@ from config import db_url_object  #для инициации движка пер
 
 metadata = MetaData()
 Base = declarative_base()
-# profile_id = 1234
-# worksheet_id = 567890
+profile_id = 0
+worksheet_id = 0
 
+# conn = {cursor, commit}
+# cursor = cur()
+# # 1. Удаление таблиц перед запуском
+# def delete_db(conn):
+#     with conn.cursor() as cur:
+#         cur.execute("""
+# 		DROP TABLE IF EXISTS viewed
+# 		""")
+#     conn.commit()
 
 class Viewed(Base):
     __tablename__ = 'viewed'
@@ -77,9 +86,12 @@ def check_user(engine, profile_id, worksheet_id ):
 
 
 if __name__ == '__main__':
+    engine = create_engine("postgresql+psycopg2://postgres:603306MuS@localhost/my_chatbot", pool_pre_ping=True)
     engine = create_engine(db_url_object)  # создать движок
+    # delete_db(conn)
+    # print("БД удалена")
     Base.metadata.create_all(engine)  # создать таблицы
-    add_user(engine, 1234, 567890)
-    res = check_user(engine, 1234, 567890)
+    add_user(engine, profile_id, worksheet_id)
+    res = check_user(engine, profile_id, worksheet_id)
     print(res)
 
