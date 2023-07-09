@@ -48,8 +48,8 @@ from config import db_url_object  #для инициации движка пер
 
 metadata = MetaData()
 Base = declarative_base()
-profile_id = 0
-worksheet_id = 0
+# profile_id = 1234
+# worksheet_id = 567890
 
 
 class Viewed(Base):
@@ -79,7 +79,7 @@ def check_user(engine, profile_id, worksheet_id ):
 if __name__ == '__main__':
     engine = create_engine(db_url_object)  # создать движок
     Base.metadata.create_all(engine)  # создать таблицы
-    add_user(engine, profile_id, worksheet_id)
-    res = check_user(engine, profile_id, worksheet_id)
+    add_user(engine, 1234, 567890)
+    res = check_user(engine, 1234, 567890)
     print(res)
 
