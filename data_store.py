@@ -48,6 +48,10 @@ from config import db_url_object  #для инициации движка пер
 
 metadata = MetaData()
 Base = declarative_base()
+
+# def create_tables(engine):
+#     Base.metadata.create_all(engine)
+#     Base.metadata.drop_all(engine)
 # profile_id = 0
 # worksheet_id = 0
 
@@ -90,6 +94,8 @@ if __name__ == '__main__':
     engine = create_engine(db_url_object)  # создать движок
     # delete_db(conn)
     # print("БД удалена")
+    # Base.metadata.delete_all(engine)
+    Base.metadata.drop_all(engine) # удалить таблицы
     Base.metadata.create_all(engine)  # создать таблицы
     add_user(engine, '12345', '67890')
     res = check_user(engine, '12345', '67890')

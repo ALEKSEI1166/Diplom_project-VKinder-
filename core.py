@@ -112,7 +112,7 @@ class VkTools():   #делаю класс
        self.vkapi = vk_api.VkApi(token=acces_token)  #инициализую vkapi используя токен пользователя(acces_token)
 
     def _bdate_toyear(self, bdate):  #она сначала определяет возраст юзера
-        user_year = bdate.split('.')[2]  #день рождения(второй по списку - Индекс 2)
+        user_year = bdate.split if bdate else None('.')[2]  #день рождения(второй по списку - Индекс 2)
         now = datetime.now().year
         return now - int(user_year)
 
@@ -121,7 +121,7 @@ class VkTools():   #делаю класс
         try:
             info, = self.vkapi.method('users.get',    #вызываю метод "users.get"(информация о пользователе). Записываю ответ в переменную 'info'
                                    {'user_id': user_id, #передаём параметры которые мне нужны (город, пол, дата)
-                                    'fields': 'city, sex, bdate'
+                                    'fields': 'city,sex,bdate'
                                     }
                                    )
         except ApiError as e:
@@ -136,25 +136,26 @@ class VkTools():   #делаю класс
         return result  #возвращаю result (ответ)
 
 
-    def search_worksheet(self, params):  #будем искать анкеты
+    def search_worksheet(self, params, offset):  #будем искать анкеты
         try:
             users = self.vkapi.method('users.search',
-                                    {  'count': 50, #число анкет
-                                       'offset': 50,
-                                       'hometawn': params ['city'],#это параметр поиска по строке
-                                       'sex': 1 if params ['sex'] == 2 else 2, #пол чтобы всегда выстраивался противоположный
-                                       'has_photo': True,   #где есть фото
-                                       'age_from': params['year'] - 3,   #возраст
-                                       'age_to': params['year'] + 3
-                                    }
-                                    )
+                                       {
+                                        'count': 50,  #число анкет
+                                        'offset': offset,
+                                        'hometown': params ['city'],  #это параметр поиска по строке
+                                        'sex': 1 if params ['sex'] == 2 else 2,  #пол чтобы всегда выстраивался противоположный
+                                        'has_photo': True,  #где есть фото
+                                        'age_from': params['year'] - 3,  #возраст
+                                        'age_to': params['year'] + 3
+                                       }
+                                     )
         except ApiError as e:
-            info = []
+            user = []
             print(f'error = {e}')
 
         result = [{
-            'name': item['first_name'] + item['last_name'],
-            'id': item['id']
+                    'name': item['first_name'] + item['last_name'],
+                    'id': item['id']
                   } for item in users['items'] if item ['is_closed'] is False
                   ]
         return result
@@ -174,10 +175,10 @@ class VkTools():   #делаю класс
 
 
         result = [{
-            'owner_id': item['owner_id'],  #owner_id -это id профиля
-            'id': item['id'],   #а это id самого фото
-            'likes': item['likes']['count'],  #лайки
-            'comments': item['comments']['count']  #комментарии
+                    'owner_id': item['owner_id'],  #owner_id -это id профиля
+                    'id': item['id'],   #а это id самого фото
+                    'likes': item['likes']['count'],  #лайки
+                    'comments': item['comments']['count']  #комментарии
                   } for item in photos['items']  #автоматический генератор листа
                 ]
         '''сортировка по лайкам и комментам'''
@@ -188,7 +189,7 @@ if __name__ == '__main__':
     user_id = 807607725
     tools = VkTools(acces_token)
     params = tools.get_profile_info(user_id)
-    worksheets = tools.search_worksheet(params)
+    worksheets = tools.search_worksheet(params, 20)
     worksheet = worksheets.pop()  #метод берет последний элемент списка,сохраняет его в переменную, но при этом удаляет её из списка
     photos = tools.get_photos(worksheet['id'])
 
