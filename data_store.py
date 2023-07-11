@@ -90,11 +90,7 @@ def check_user(engine, profile_id, worksheet_id ):
 
 
 if __name__ == '__main__':
-    # engine = create_engine("postgresql+psycopg2://postgres:603306MuS@localhost/my_chatbot", pool_pre_ping=True)
     engine = create_engine(db_url_object)  # создать движок
-    # delete_db(conn)
-    # print("БД удалена")
-    # Base.metadata.delete_all(engine)
     Base.metadata.drop_all(engine) # удалить таблицу
     Base.metadata.create_all(engine)  # создать таблицу
     add_user(engine, '1234', '567890')  #добавить user

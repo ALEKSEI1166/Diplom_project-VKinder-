@@ -139,15 +139,14 @@ class VkTools():   #делаю класс
     def search_worksheet(self, params, offset):  #будем искать анкеты
         try:
             users = self.vkapi.method('users.search',
-                                     {
-                                        'count': 50,  #число анкет
-                                        'offset': offset,
-                                        'hometown': params ['city'],  #это параметр поиска по строке
-                                        'sex': 1 if params ['sex'] == 2 else 2,  #пол чтобы всегда выстраивался противоположный
-                                        'has_photo': True,  #где есть фото
-                                        'age_from': params['year'] - 3,  #возраст
-                                        'age_to': params['year'] + 3
-                                     }
+                                     {'count': 50,  #число анкет
+                                      'offset': offset,
+                                      'hometown': params ['city'],  #это параметр поиска по строке
+                                      'sex': 1 if params ['sex'] == 2 else 2,  #пол чтобы всегда выстраивался противоположный
+                                      'has_photo': True,  #где есть фото
+                                      'age_from': params['year'] - 3,  #возраст
+                                      'age_to': params['year'] + 3
+                                      }
                                      )
         except ApiError as KeyError:
             user = []
