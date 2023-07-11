@@ -67,12 +67,12 @@ Base = declarative_base()
 
 class Viewed(Base):
     __tablename__ = 'viewed'
-    profile_id = sq.Column(sq.Integer, primary_key=True)
-    worksheet_id = sq.Column(sq.Integer, primary_key=True)
+    profile_id = sq.Column(sq.Integer, primary_key=True)  #это id_пользователя
+    worksheet_id = sq.Column(sq.Integer, primary_key=True) #а это id_анкет, которые он просматривает
 
 
 #добавление записи в БД
-def add_user(engine, profile_id, worksheet_id ):  #принимает движок и id анкет, которые уже просмотрел профиль id
+def add_user(engine, profile_id, worksheet_id):  #принимает движок и id анкет, которые уже просмотрел профиль id
     with Session(engine) as session:
         to_bd = Viewed(profile_id=profile_id, worksheet_id=worksheet_id)
         session.add(to_bd)
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     # Base.metadata.delete_all(engine)
     Base.metadata.drop_all(engine) # удалить таблицы
     Base.metadata.create_all(engine)  # создать таблицы
-    add_user(engine, '12345', '67890')
-    res = check_user(engine, '12345', '67890')
+    add_user(engine, '1234', '567890')  #добавить user
+    res = check_user(engine, '1234', '567890')
     print(res)
 

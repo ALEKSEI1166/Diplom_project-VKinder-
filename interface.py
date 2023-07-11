@@ -116,6 +116,7 @@ class BotInterface():
                     else:
                         self.worksheets = self.vk_tools.search_worksheet(  #здесь мы находим анкеты
                             self.params, self.offset)
+
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
                         worksheet = self.worksheets.pop()
@@ -129,11 +130,11 @@ class BotInterface():
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
                         self.offset += 50
 
-                    self.message_send(
-                        event.user_id,
-                        f'имя: {worksheet["name"]} ссылка: vk.com/{worksheet["id"]}',
-                        attachment=photo_string   #и отправляем сообщение пользователю
-                    )
+                        self.message_send(
+                            event.user_id,
+                            f'имя: {worksheet["name"]} ссылка: vk.com/{worksheet["id"]}',
+                            attachment=photo_string   #и отправляем сообщение пользователю
+                        )
                     'добавить анкету в БД в соответствии с event.user_id'
 
                 elif event.text.lower() == 'пока':
