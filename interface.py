@@ -84,7 +84,7 @@ class BotInterface():
         self.params = {}  #пустой словарь
         self.worksheets = []
         self.offset = 0
-        check_user = None
+        self.check_user = None
 
     def message_send(self, user_id, message, attachment=None): #функция отправки соообщений
         self.vk.method('messages.send',  #она построена на методе'messages.send'. Здесь передаём название метода
