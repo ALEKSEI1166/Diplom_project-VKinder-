@@ -139,7 +139,7 @@ class VkTools():   #делаю класс
     def search_worksheet(self, params, offset):  #будем искать анкеты
         try:
             users = self.vkapi.method('users.search',
-                                       {
+                                     {
                                         'count': 50,  #число анкет
                                         'offset': offset,
                                         'hometown': params ['city'],  #это параметр поиска по строке
@@ -147,15 +147,14 @@ class VkTools():   #делаю класс
                                         'has_photo': True,  #где есть фото
                                         'age_from': params['year'] - 3,  #возраст
                                         'age_to': params['year'] + 3
-                                       }
+                                     }
                                      )
         except ApiError as e:
             user = []
             print(f'error = {e}')
 
-        result = [{
-                    'name': item['first_name'] + item['last_name'],
-                    'id': item['id']
+        result = [{'name': item['first_name'] + item['last_name'],
+                   'id': item['id']
                   } for item in users['items'] if item ['is_closed'] is False
                   ]
         return result
