@@ -48,7 +48,7 @@ from config import db_url_object  #для инициации движка пер
 
 metadata = MetaData()
 Base = declarative_base()
-check_user = dict()
+
 # def create_tables(engine):
 #     Base.metadata.create_all(engine)
 #     Base.metadata.drop_all(engine)

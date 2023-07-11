@@ -73,7 +73,8 @@ from vk_api.utils import get_random_id  #импортируем из утили�
 from config import comunity_token, acces_token #берем из config comunity_token (это токен сообщества)
 from core import VkTools
 #отправка сообщений
-vk = vk_api.VkApi(token=comunity_token)  #Здесь производим инициализацию нашей API-> получается обьект VK,из этого обьекта vk будем вызывать все методы.
+vk = vk_api.VkApi(token=comunity_token)  #Здесь производим инициализацию нашей API-> получается обьект VK,из этого обьекта vk будем вызывать все метод
+
 
 class BotInterface():
     def __init__(self, comunity_token, acces_token):

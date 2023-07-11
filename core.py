@@ -149,9 +149,9 @@ class VkTools():   #делаю класс
                                         'age_to': params['year'] + 3
                                      }
                                      )
-        except ApiError as e:
+        except ApiError as KeyError:
             user = []
-            print(f'error = {e}')
+            print(f'error = {KeyError}')
 
         result = [{'name': item['first_name'] + item['last_name'],
                    'id': item['id']
