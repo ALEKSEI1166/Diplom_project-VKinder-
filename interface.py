@@ -115,8 +115,7 @@ class BotInterface():
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
                     else:
                         self.worksheets = self.vk_tools.search_worksheet(  #здесь мы находим анкеты
-                            self.params)
-
+                            self.params, self.offset)
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
                         worksheet = self.worksheets.pop()

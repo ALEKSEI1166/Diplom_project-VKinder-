@@ -112,7 +112,7 @@ class VkTools():   #делаю класс
        self.vkapi = vk_api.VkApi(token=acces_token)  #инициализую vkapi используя токен пользователя(acces_token)
 
     def _bdate_toyear(self, bdate):  #она сначала определяет возраст юзера
-        user_year = bdate.split if bdate else None('.')[2]  #день рождения(второй по списку - Индекс 2)
+        user_year = bdate.split ('.')[2]  #день рождения(второй по списку - Индекс 2)
         now = datetime.now().year
         return now - int(user_year)
 
@@ -121,7 +121,7 @@ class VkTools():   #делаю класс
         try:
             info, = self.vkapi.method('users.get',    #вызываю метод "users.get"(информация о пользователе). Записываю ответ в переменную 'info'
                                    {'user_id': user_id, #передаём параметры которые мне нужны (город, пол, дата)
-                                    'fields': 'city,sex,bdate'
+                                    'fields': 'city,sex,relation,bdate'
                                     }
                                    )
         except ApiError as e:
