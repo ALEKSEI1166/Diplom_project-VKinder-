@@ -93,7 +93,7 @@ if __name__ == '__main__':
     engine = create_engine(db_url_object)  # создать движок
     Base.metadata.drop_all(engine) # удалить таблицу
     Base.metadata.create_all(engine)  # создать таблицу
-    add_user(engine, 1234, 567890)  #добавить user
-    res = check_user(engine, 1234, 567890)
+    add_user(engine, '1234', '567890')  #добавить user
+    res = check_user(engine, '1234', '567890')
     print(res)
 

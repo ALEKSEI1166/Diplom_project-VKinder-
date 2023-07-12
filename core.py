@@ -161,10 +161,6 @@ class VkTools():   #делаю класс
 
 
     def get_photos(self, id):    #поиск фото
-        """
-
-        :rtype: object
-        """
         try:
             photos = self.vkapi.method('photos.get',
                                    {'owner_id': id,

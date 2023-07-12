@@ -85,7 +85,7 @@ class BotInterface():
         self.params = {}  #пустой словарь
         self.worksheets = []
         self.offset = 0
-        self.check_user = []
+        # self.check_user = []
 
     def message_send(self, user_id, message, attachment=None): #функция отправки соообщений
         self.vk.method('messages.send',  #она построена на методе'messages.send'. Здесь передаём название метода
@@ -121,10 +121,10 @@ class BotInterface():
 
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
-                        worksheet = self.worksheets.pop()
-                        while check_user(event.user_id, worksheet['id']):
-                            if worksheets:
-                                worksheet = self.worksheets.pop()
+                        # worksheet = self.worksheets.pop()
+                        # while check_user(event.user_id, worksheet['id']):
+                        #     if worksheets:
+                        #         worksheet = self.worksheets.pop()
 
                         photos = self.vk_tools.get_photos(worksheet['id']) #ищем фото к этой анкете
                         photo_string = ''
