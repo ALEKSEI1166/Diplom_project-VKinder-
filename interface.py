@@ -1,4 +1,5 @@
 # # Вариант 1.
+from typing import Dict, Any
 
 # # импорты
 # import vk_api
@@ -84,7 +85,7 @@ class BotInterface():
         self.params = {}  #пустой словарь
         self.worksheets = []
         self.offset = 0
-        self.check_user = None
+        self.check_user = []
 
     def message_send(self, user_id, message, attachment=None): #функция отправки соообщений
         self.vk.method('messages.send',  #она построена на методе'messages.send'. Здесь передаём название метода
@@ -129,7 +130,7 @@ class BotInterface():
                         photo_string = ''
                         for photo in photos:  #формируем строку
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
-                        self.offset += 50
+                        self.offset += 10
 
                         self.message_send(
                             event.user_id,

@@ -104,6 +104,7 @@ from datetime import datetime  #библиотека для определени
 import vk_api
 from vk_api.exceptions import ApiError
 
+
 from config import acces_token #импрортирую с config нужный мне токен (acces_token)
 
 #получение данных о пользователе
@@ -138,19 +139,19 @@ class VkTools():   #делаю класс
 
     def search_worksheet(self, params, offset):  #будем искать анкеты
         try:
-            users = self.vkapi.method('users.search',
-                                     {'count': 50,  #число анкет
-                                      'offset': offset,
-                                      'hometown': params ['city'],  #это параметр поиска по строке
-                                      'sex': 1 if params ['sex'] == 2 else 2,  #пол чтобы всегда выстраивался противоположный
-                                      'has_photo': True,  #где есть фото
-                                      'age_from': params['year'] - 3,  #возраст
-                                      'age_to': params['year'] + 3
-                                      }
-                                     )
-        except ApiError as KeyError:
+            users = self.vkapi.method("users.search",
+                                      {'count': 50,  #число анкет
+                                       'offset': offset,
+                                       'hometown': params ['city'],  #это параметр поиска по строке
+                                       'sex': 1 if params ['sex'] == 2 else 2,  #пол чтобы всегда выстраивался противоположный
+                                       'has_photo': True,  #где есть фото
+                                       'age_from': params['year'] - 3,  #возраст
+                                       'age_to': params['year'] + 3
+                                       }
+                                      )
+        except KeyError as e:
             user = []
-            print(f'error = {KeyError}')
+            print(f'error = {e}')
 
         result = [{'name': item['first_name'] + item['last_name'],
                    'id': item['id']
@@ -160,6 +161,10 @@ class VkTools():   #делаю класс
 
 
     def get_photos(self, id):    #поиск фото
+        """
+
+        :rtype: object
+        """
         try:
             photos = self.vkapi.method('photos.get',
                                    {'owner_id': id,
