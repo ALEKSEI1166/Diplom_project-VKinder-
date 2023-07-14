@@ -53,8 +53,8 @@ Base = declarative_base()
 # def create_tables(engine):
 #     Base.metadata.create_all(engine)
 #     Base.metadata.drop_all(engine)
-# profile_id = 0
-# worksheet_id = 0
+user_id = 0
+user_profile = 0
 
 # conn = {cursor, commit}
 # cursor = cur()
@@ -92,9 +92,9 @@ def check_user(engine, user_id, user_profile):
 
 if __name__ == '__main__':
     engine = create_engine(db_url_object)  # создать движок
-    Base.metadata.drop_all(engine) # удалить таблицу
+    # Base.metadata.drop_all(engine) # удалить таблицу
     Base.metadata.create_all(engine)  # создать таблицу
-    add_user(engine, 1234, 567890)  #добавить user
-    res = check_user(engine, 1234, 567890)
+    add_user(engine, user_id, user_profile)  #добавить user
+    res = check_user(engine, user_id, user_profile)
     print(res)
 
