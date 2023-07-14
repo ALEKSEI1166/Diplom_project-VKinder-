@@ -1,5 +1,5 @@
 # # Вариант 1.
-from typing import Dict, Any
+# from typing import Dict, Any
 
 # # импорты
 # import vk_api
@@ -132,11 +132,11 @@ class BotInterface():
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
                         self.offset += 10
 
-                        self.message_send(
-                            event.user_id,
-                            f'имя: {worksheet["name"]} ссылка: vk.com/{worksheet["id"]}',
-                            attachment=photo_string   #и отправляем сообщение пользователю
-                        )
+                    self.message_send(
+                        event.user_id,
+                        f'имя: {worksheet["name"]} ссылка: vk.com/{worksheet["id"]}',
+                        attachment=photo_string   #и отправляем сообщение пользователю
+                    )
                     'добавить анкету в БД в соответствии с event.user_id'
 
                 elif event.text.lower() == 'пока':
