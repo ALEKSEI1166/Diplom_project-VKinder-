@@ -1,7 +1,8 @@
 # Вариант 1
-
+# from typing import Any
+#
 # from typing import List, Any
-
+#
 # # импорты
 # import sqlalchemy as sq
 # from sqlalchemy.orm import declarative_base
@@ -35,13 +36,13 @@
 #     from_bd = session.query(Viewed).filter(Viewed.profile_id==1).all()
 #     for item in from_bd:
 #         print(item.worksheet_id)
-
+#
 
 # Вариант 2.
-#импорты
+# импорты
 import sqlalchemy as sq
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine, MetaData, Column
 from sqlalchemy.orm import Session
 
 from config import db_url_object  #для инициации движка передаетс адрес (url)
@@ -67,24 +68,24 @@ Base = declarative_base()
 
 class Viewed(Base):
     __tablename__ = 'viewed'
-    profile_id = sq.Column(sq.Integer, primary_key=True)  #это id_пользователя
-    worksheet_id = sq.Column(sq.Integer, primary_key=True) #а это id_анкет, которые он просматривает
+    user_id = sq.Column(sq.Integer, primary_key = True)  #это id_пользователя
+    user_profile = sq.Column(sq.Integer, primary_key=True) #а это id_анкет, которые он просматривает
 
 
 #добавление записи в БД
-def add_user(engine, profile_id, worksheet_id):  #принимает движок и id анкет, которые уже просмотрел профиль id
+def add_user(engine, user_id, user_profile):  #принимает движок и id анкет, которые уже просмотрел профиль id
     with Session(engine) as session:
-        to_bd = Viewed(profile_id=profile_id, worksheet_id=worksheet_id)
+        to_bd = Viewed(user_id=user_id, user_profile=user_profile)
         session.add(to_bd)
         session.commit()
 
 
 #извлечение записи из БД
-def check_user(engine, profile_id, worksheet_id ):
+def check_user(engine, user_id, user_profile):
     with Session(engine) as session:
         from_bd = session.query(Viewed).filter(
-            Viewed.profile_id == profile_id,
-            Viewed.worksheet_id == worksheet_id
+            Viewed.user_id == user_id,
+            Viewed.user_profile == user_profile
         ).first()
         return True if from_bd else False
 
@@ -93,7 +94,7 @@ if __name__ == '__main__':
     engine = create_engine(db_url_object)  # создать движок
     Base.metadata.drop_all(engine) # удалить таблицу
     Base.metadata.create_all(engine)  # создать таблицу
-    add_user(engine, '1234', '567890')  #добавить user
-    res = check_user(engine, '1234', '567890')
+    add_user(engine, 1234, 567890)  #добавить user
+    res = check_user(engine, 1234, 567890)
     print(res)
 
