@@ -180,8 +180,21 @@ class VkTools():   #делаю класс
                     'comments': item['comments']['count']  #комментарии
                   } for item in photos['items']  #автоматический генератор листа
                 ]
+        return result[:3]  # берем первые 3 фото
+
         '''сортировка по лайкам и комментам'''
-        return result[:3]  #берем первые 3 фото
+        for photo in photos:
+            res.append({'owner_id': photo['owner_id'],
+                                'id': photo['id'],
+                                'likes': photo['likes']['count'],
+                                'comments': photo['comments']['count'],
+                                }
+                               )
+
+            res.sort(key=lambda x: x['likes'] + x['comments'] * 10, reverse=True)
+
+            return res
+            # return result[:3]  #берем первые 3 фото
 
 
 if __name__ == '__main__':
