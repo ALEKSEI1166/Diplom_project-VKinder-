@@ -122,9 +122,9 @@ class BotInterface():
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
                         worksheet = self.worksheets.pop()
-                        while check_user(event.user_id, worksheet['id']):
-                            if worksheets:
-                                worksheet = self.worksheets.pop()
+                        # while check_user(event.user_id, worksheet['id']):
+                        #     if worksheets:
+                        #         worksheet = self.worksheets.pop()
 
                         photos = self.vk_tools.get_photos(worksheet['id']) #ищем фото к этой анкете
                         photo_string = ''
