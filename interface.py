@@ -74,8 +74,8 @@ from vk_api.utils import get_random_id  #импортируем из утили�
 from config import comunity_token, acces_token #берем из config comunity_token (это токен сообщества)
 from core import VkTools
 #отправка сообщений
-vk = vk_api.VkApi(token=comunity_token)  #Здесь производим инициализацию нашей API-> получается обьект VK,из этого обьекта vk будем вызывать все метод
-
+vk = vk_api.VkApi(token=comunity_token)  #Здесь производим инициализацию нашей API-> получается обьект VK,из этого обьекта vk будем вызывать все мето
+check_user = []
 
 class BotInterface():
     def __init__(self, comunity_token, acces_token):
@@ -122,7 +122,7 @@ class BotInterface():
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
                         worksheet = self.worksheets.pop()
-                        while check_user(event.user_id, worksheet['id']):
+                        while check_user(event.user_id, worksheet['id']): #проверка на предмет повторений
                             if worksheets:
                                 worksheet = self.worksheets.pop()
 
@@ -139,12 +139,11 @@ class BotInterface():
                     )
 
 
-                    'добавить анкету в БД в соответствии с event.user_id'
-                    # Добавим список найденных пользователей, что бы не обращаться заново к базе
-                    self.user_data_cache[user_id]['in_db'].extend(profiles_id)
-                    print(self.user_data_cache[user_id]['in_db'])
-                    self.message_send(user_id, messages.final_status)
-                    return "final"
+                    # 'добавить анкету в БД в соответствии с event.user_id'
+                    # worksheet = self.worksheets.pop()
+                    # while add_user(event.user_id, worksheet['id']):
+                    #         if worksheets:
+                    #             worksheet = self.worksheets.pop()
 
 
                 elif event.text.lower() == 'пока':

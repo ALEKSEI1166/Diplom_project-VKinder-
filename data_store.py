@@ -53,8 +53,8 @@ Base = declarative_base()
 # def create_tables(engine):
 #     Base.metadata.create_all(engine)
 #     Base.metadata.drop_all(engine)
-# user_id = not None
-# user_profile = not None
+# profile_id = not None
+# worksheet_id = not None
 
 # conn = {cursor, commit}
 # cursor = cur()
@@ -68,24 +68,24 @@ Base = declarative_base()
 
 class Viewed(Base):
     __tablename__ = 'viewed'
-    user_id = sq.Column(sq.Integer, primary_key = True)  #это id_пользователя
-    user_profile = sq.Column(sq.Integer, primary_key=True) #а это id_анкет, которые он просматривает
+    profile_id = sq.Column(sq.Integer, primary_key=True)  #это id_пользователя
+    worksheet_id = sq.Column(sq.Integer, primary_key=True) #а это id_анкет, которые он просматривает
 
 
 #добавление записи в БД
-def add_user(engine, user_id, user_profile):  #принимает движок и id анкет, которые уже просмотрел профиль id
+def add_user(engine, profile_id, worksheet_id):  #принимает движок и id анкет, которые уже просмотрел профиль id
     with Session(engine) as session:
-        to_bd = Viewed(user_id=user_id, user_profile=user_profile)
+        to_bd = Viewed(profile_id=profile_id, worksheet_id=worksheet_id)
         session.add(to_bd)
         session.commit()
 
 
 #извлечение записи из БД
-def check_user(engine, user_id, user_profile):
+def check_user(engine, profile_id, worksheet_id):
     with Session(engine) as session:
         from_bd = session.query(Viewed).filter(
-            Viewed.user_id == user_id,
-            Viewed.user_profile == user_profile
+            Viewed.profile_id == profile_id,
+            Viewed.worksheet_id == worksheet_id
         ).first()
         return True if from_bd else False
 

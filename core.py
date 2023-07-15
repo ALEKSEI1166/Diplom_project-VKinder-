@@ -129,34 +129,30 @@ class VkTools():   #делаю класс
             info = {}
             print(f'error = {e}')
 
-        result = {'name': (info['first_name'] + ' ' + info['last_name']) if 'first_name' in info and 'last_name' in info else None,
-                  'sex': info.get('sex'),
-                  'city': info.get('city')['title'] if info.get('city') is not None else None,
-                  'year': self._bdate_toyear(info.get('bdate'))
-                  }
+        result = dict(name=(info['first_name'] + ' ' + info[
+            'last_name']) if 'first_name' in info and 'last_name' in info else None, sex=info.get('sex') is not None,
+                      city=info.get('city')['title'] if info.get('city') is not None else None,
+                      year=self._bdate_toyear(info.get('bdate')))
         return result  #возвращаю result (ответ)
 
 
     def search_worksheet(self, params, offset):  #будем искать анкеты
         try:
             users = self.vkapi.method("users.search",
-                                      {'count': 50,  #число анкет
-                                       'offset': offset,
-                                       'hometown': params ['city'],  #это параметр поиска по строке
-                                       'sex': 1 if params ['sex'] == 2 else 2,  #пол чтобы всегда выстраивался противоположный
-                                       'has_photo': True,  #где есть фото
-                                       'age_from': params['year'] - 3,  #возраст
-                                       'age_to': params['year'] + 3
-                                       }
+                                      dict(count=50, offset=offset, hometown=params['city'],
+                                           sex=1 if params['sex'] == 2 else 2, has_photo=True,
+                                           age_from=params['year'] - 3, age_to=params['year'] + 3)
                                       )
         except KeyError as e:
             user = []
             print(f'error = {e}')
 
-        result = [{'name': item['first_name'] + item['last_name'],
-                   'id': item['id']
-                  } for item in users['items'] if item['is_closed'] is False
-                  ]
+        result = []
+        for item in users['items']:
+            if item['is_closed'] is False:
+                result.append({'name': item['first_name'] + item['last_name'],
+                               'id': item['id']
+                               })
         return result
 
 
@@ -194,7 +190,6 @@ class VkTools():   #делаю класс
             res.sort(key=lambda x: x['likes'] + x['comments'] * 10, reverse=True)
 
             return res
-            # return result[:3]  #берем первые 3 фото
 
 
 if __name__ == '__main__':
