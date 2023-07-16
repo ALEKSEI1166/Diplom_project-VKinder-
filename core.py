@@ -41,10 +41,10 @@ class VkTools():
                      }
         return result
 
-    def serch_users(self, params):
+    def serch_worksheet(self, params):  #находим пользователей
         try:
-            users = self.vapi.method('users.search',
-                                    {'count': 1,
+            users = self.vkapi.method('users.search',
+                                    {'count': 50,
                                      'hometown': params['city'],
                                      'sex': 1 if params['sex'] ==2 else 2,
                                      'has_photo': True,
@@ -53,8 +53,18 @@ class VkTools():
                                      }
                                      )
         except ApiError as e:
-            info = {}
+            info = []
             print(f'error = {e}')
+
+        result = [{'name': item['first_name'] + ' ' + item['last_name'],
+                   'id': item['id']
+                   } for item in users['items'] if item['is_closed'] is False
+                  ]
+
+        return result
+
+
+
         # try:
         #     users = users['items']
         # except KeyError:
@@ -102,8 +112,9 @@ if __name__ == '__main__':
     user_id = 807607725
     tools = VkTools(acces_token)
     params = tools.get_profile_info(user_id)
+    worksheet = tools.serch_worksheet(params)
 
-    pprint(params)
+    pprint(worksheet)
     # bot = VkTools(acces_token)
     # params = bot.get_profile_info(789657038)
     # users = bot.serch_users(params)
