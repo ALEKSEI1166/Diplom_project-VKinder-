@@ -37,37 +37,30 @@ class VkTools():
                      # 'home_town': info['home_town'],
                      'sex': info.get('sex'),
                      'city': info.get('city')['title'] if info.get('city') is not None else None,
-                     'bdate': self._bdate_toyear(info.get('bdate'))
+                     'year': self._bdate_toyear(info.get('bdate'))
                      }
         return result
-    #
-    # def serch_users(self, params):
-    #
-    #     sex = 1 if params['sex'] == 2 else 2
-    #     city = params['city']
-    #     curent_year = datetime.now().year
-    #     user_year = int(params['bdate'].split('.')[2])
-    #     age = curent_year - user_year
-    #     age_from = age - 5
-    #     age_to = age + 5
-    #
-    #     users = self.api.method('users.search',
-    #                             {'count': 10,
-    #                              'offset': 0,
-    #                              'age_from': age_from,
-    #                              'age_to': age_to,
-    #                              'sex': sex,
-    #                              'city': city,
-    #                              'status': 6,
-    #                              'is_closed': False
-    #                              }
-    #                             )
-    #     try:
-    #         users = users['items']
-    #     except KeyError:
-    #         return []
-    #
-    #     res = []
+
+    def serch_users(self, params):
+        try:
+            users = self.vapi.method('users.search',
+                                    {'count': 1,
+                                     'hometown': params['city'],
+                                     'sex': 1 if params['sex'] ==2 else 2,
+                                     'has_photo': True,
+                                     'age_from': params['year'] - 3,
+                                     'age_to': params['year'] + 3,
+                                     }
+                                     )
+        except ApiError as e:
+            info = {}
+            print(f'error = {e}')
+        # try:
+        #     users = users['items']
+        # except KeyError:
+        #     return []
+
+        # res = []
     #
     #     for user in users:
     #         if user['is_closed'] == False:
