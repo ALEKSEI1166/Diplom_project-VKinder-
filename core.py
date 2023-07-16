@@ -26,7 +26,7 @@ class VkTools():
                                       'fields': 'city,sex,bdate,relation'
                                      }
                                      )
-        except ApiError as e:
+        except KeyError as e:
             info = {}
             print(f'error = {e}')
 
@@ -41,7 +41,7 @@ class VkTools():
                      }
         return result
 
-    def serch_worksheet(self, params, offset):  #находим пользователей
+    def search_worksheet(self, params, offset):  #находим пользователей
         try:
             users = self.vkapi.method('users.search',
                                     {'count': 50,
@@ -73,7 +73,7 @@ class VkTools():
                                             'extended': 1   #параметр говорит о том - какая информация нужна о фото
                                             }
                                             )
-        except KeyError as e:
+        except ApiError as e:
                 photos = {}
                 print(f'error = {e}')
 
@@ -104,12 +104,8 @@ if __name__ == '__main__':
     user_id = 807607725
     tools = VkTools(acces_token)
     params = tools.get_profile_info(user_id)
-    worksheets = tools.serch_worksheet(params, 20)
+    worksheets = tools.search_worksheet(params, 20)
     worksheet = worksheets.pop() #метод 'pop' берет последний элемент списка, сохранияет его в переменную, но при этом он ее удаляет из списка
     photos = tools.get_photos(worksheet['id'])
 
     pprint(worksheets)
-    # bot = VkTools(acces_token)
-    # params = bot.get_profile_info(789657038)
-    # users = bot.serch_users(params)
-    # print(bot.get_photos(users[2]['id']))

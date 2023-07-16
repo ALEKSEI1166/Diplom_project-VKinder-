@@ -37,7 +37,7 @@
 #                     self.params = self.api.get_profile_info(event.user_id)
 #                     self.message_send(event.user_id, f'здравствуй {self.params["name"]}')
 #                 elif command == 'поиск':
-#                     users = self.api.serch_users(self.params)
+#                     users = self.api.search_users(self.params)
 #                     user = users.pop()
 #                     # здесь логика дял проверки бд
 #                     photos_user = self.api.get_photos(user['id'])
@@ -72,21 +72,21 @@ from vk_api.longpoll import VkLongPoll, VkEventType #из этого же пак
 from vk_api.utils import get_random_id  #импортируем из утилит спецутилиту для генерации специального айдишника
 
 from config import comunity_token, acces_token #берем из config comunity_token (это токен сообщества)
-from core import VkTools, worksheets
+import core
 
 #отправка сообщений
 vk = vk_api.VkApi(token=comunity_token)  #Здесь производим инициализацию нашей API-> получается обьект VK,из этого обьекта vk будем вызывать все мето
-check_user = []
+# check_user = []
 
 class BotInterface():
     def __init__(self, comunity_token, acces_token):
         self.vk = vk_api.VkApi(token=comunity_token)
         self.longpoll = VkLongPoll(self.vk)
-        self.vk_tools = VkTools(acces_token)  #определяем vk_tools
+        self.vk_tools = core.VkTools(acces_token) #определяем vk_tools
         self.params = {}  #пустой словарь
         self.worksheets = []
         self.offset = 0
-        self.check_user = []
+        # self.check_user = []
 
     def message_send(self, user_id, message, attachment=None): #функция отправки соообщений
         self.vk.method('messages.send',  #она построена на методе'messages.send'. Здесь передаём название метода
@@ -123,8 +123,8 @@ class BotInterface():
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
                         worksheet = self.worksheets.pop()
-                        while check_user(event.user_id, worksheet['id']): #проверка на предмет повторений
-                            if worksheets:
+                        while users.search(event.user_id, worksheet['id']): #проверка на предмет повторений
+                            if core.worksheets:
                                 worksheet = self.worksheets.pop()
 
                         photos = self.vk_tools.get_photos(worksheet['id']) #ищем фото к этой анкете
