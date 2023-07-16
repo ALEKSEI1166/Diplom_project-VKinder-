@@ -1,13 +1,13 @@
+#импорты
+
 from pprint import pprint
 from  datetime import  datetime #определять возраст
-#импорты
 import vk_api
 from vk_api.exceptions import ApiError
-
 from config import acces_token
 
-#получение данных о пользователе
 
+#получение данных о пользователе
 class VkTools():
     def __init__(self, acces_token):
         self.vkapi = vk_api.VkApi(token=acces_token)
@@ -53,7 +53,7 @@ class VkTools():
                                      'age_to': params['year'] + 3,
                                      }
                                      )
-        except ApiError as e:
+        except KeyError as e:
             info = []
             print(f'error = {e}')
 
@@ -73,7 +73,7 @@ class VkTools():
                                             'extended': 1   #параметр говорит о том - какая информация нужна о фото
                                             }
                                             )
-        except ApiError as e:
+        except KeyError as e:
                 photos = {}
                 print(f'error = {e}')
 
@@ -99,50 +99,6 @@ class VkTools():
         return res
 
 
-
-
-        # try:
-        #     users = users['items']
-        # except KeyError:
-        #     return []
-
-        # res = []
-    #
-    #     for user in users:
-    #         if user['is_closed'] == False:
-    #             res.append({'id': user['id'],
-    #                         'name': user['first_name'] + ' ' + user['last_name']
-    #                         }
-    #                        )
-    #
-    #     return res
-    #
-    # def get_photos(self, user_id):
-    #     photos = self.api.method('photos.get',
-    #                              {'user_id': user_id,
-    #                               'album_id': 'profile',
-    #                               'extended': 1
-    #                               }
-    #                              )
-    #     try:
-    #         photos = photos['items']
-    #     except KeyError:
-    #         return []
-    #
-    #     res = []
-    #
-        for photo in photos:
-            res.append({'owner_id': photo['owner_id'],
-                        'id': photo['id'],
-                        'likes': photo['likes']['count'],
-                        'comments': photo['comments']['count'],
-                        }
-                       )
-
-        res.sort(key=lambda x: x['likes'] + x['comments'] * 10, reverse=True)
-
-        return res
-    #
 
 if __name__ == '__main__':
     user_id = 807607725
