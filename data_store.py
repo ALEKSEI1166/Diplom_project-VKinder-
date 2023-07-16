@@ -50,22 +50,6 @@ from config import db_url_object  #для инициации движка пер
 metadata = MetaData()
 Base = declarative_base()
 
-# def create_tables(engine):
-#     Base.metadata.create_all(engine)
-#     Base.metadata.drop_all(engine)
-# profile_id = not None
-# worksheet_id = not None
-
-# conn = {cursor, commit}
-# cursor = cur()
-# # 1. Удаление таблиц перед запуском
-# def delete_db(conn):
-#     with conn.cursor() as cur:
-#         cur.execute("""
-# 		DROP TABLE IF EXISTS viewed
-# 		""")
-#     conn.commit()
-
 class Viewed(Base):
     __tablename__ = 'viewed'
     profile_id = sq.Column(sq.Integer, primary_key=True)  #это id_пользователя

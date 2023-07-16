@@ -55,7 +55,7 @@ class BotInterface():
                     else:
                         self.worksheets = self.vk_tools.search_worksheet(  #здесь мы находим анкеты
                             self.params, self.offset)
-
+                        self.offset += 10
                         worksheet = self.worksheets.pop()  #берем любую анкету
                         'проверка анкеты в БД в соответствии с event.user_id'
                         worksheet = self.worksheets.pop()
@@ -67,7 +67,6 @@ class BotInterface():
                         photo_string = ''
                         for photo in photos:  #формируем строку
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
-                        self.offset += 10
 
                     self.message_send(
                         event.user_id,
