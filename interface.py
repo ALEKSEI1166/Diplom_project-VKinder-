@@ -72,7 +72,8 @@ from vk_api.longpoll import VkLongPoll, VkEventType #из этого же пак
 from vk_api.utils import get_random_id  #импортируем из утилит спецутилиту для генерации специального айдишника
 
 from config import comunity_token, acces_token #берем из config comunity_token (это токен сообщества)
-from core import VkTools
+from core import VkTools, worksheets
+
 #отправка сообщений
 vk = vk_api.VkApi(token=comunity_token)  #Здесь производим инициализацию нашей API-> получается обьект VK,из этого обьекта vk будем вызывать все мето
 check_user = []
@@ -157,3 +158,5 @@ class BotInterface():
 if __name__ == '__main__':  #это условие позволяет определять самим выполнение кода в данном файле
    bot_interface = BotInterface(comunity_token, acces_token)
    bot_interface.event_handler()
+
+
