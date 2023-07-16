@@ -58,10 +58,25 @@ class VkTools():
 
         result = [{'name': item['first_name'] + ' ' + item['last_name'],
                    'id': item['id']
-                   } for item in users['items'] if item['is_closed'] is False
+                   } for item in users['items'] if item['is_closed'] is False #берем анкету если профиль не закрыт
                   ]
 
         return result
+
+
+    def get_photos(self, id):  #поиск фото
+        try:
+                photos = self.vkapi.method('photos.get',
+                                           {'owner_id': id,
+                                            'album_id': 'profile',
+                                            'extendet': 1   #параметр говорит о том - какая информация нужна о фото
+                                            }
+                                            )
+        except ApiError as e:
+                photos = {}
+                print(f'error = {e}')
+
+        return photos
 
 
 
@@ -112,9 +127,11 @@ if __name__ == '__main__':
     user_id = 807607725
     tools = VkTools(acces_token)
     params = tools.get_profile_info(user_id)
-    worksheet = tools.serch_worksheet(params)
+    worksheets = tools.serch_worksheet(params)
+    worksheet = worksheets.pop() #метод 'pop' берет последний элемент списка, сохранияет его в переменную, но при этом он ее удаляет из списка
+    photos = tools.get_photos(worksheet['id'])
 
-    pprint(worksheet)
+    pprint(photos)
     # bot = VkTools(acces_token)
     # params = bot.get_profile_info(789657038)
     # users = bot.serch_users(params)
