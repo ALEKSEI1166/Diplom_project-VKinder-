@@ -1,4 +1,5 @@
 from pprint import pprint
+from  datetime import  datetime #определять возраст
 #импорты
 import vk_api
 from vk_api.exceptions import ApiError
@@ -11,24 +12,32 @@ class VkTools():
     def __init__(self, acces_token):
         self.vkapi = vk_api.VkApi(token=acces_token)
 
+
+    def _bdate_toyear(selfs, bdate):
+        user_year = bdate.split('.')[2]
+        now = datetime.now().year
+        return now - int(user_year)
+
+
     def get_profile_info(self, user_id):
         try:
             info, = self.vkapi.method('users.get',
-                                    {'user_id': user_id,
-                                    'fields': 'city, sex, bdate, relation'
-                                    }
-                                    )
+                                     {'user_id': user_id,
+                                      'fields': 'city,sex,bdate,relation'
+                                     }
+                                     )
         except ApiError as e:
             info = {}
             print(f'error = {e}')
 
-        result = {'name': info['first_name'] + ' ' + info['last_name'],
+        result = {'name': info['first_name'] + ' ' + info['last_name'] if
+                  'first_name' in info and 'last_name' in info else None,
                      # 'id': info['id'],
                      # 'bdate': info['bdate'] if 'bdate' in info else None,
                      # 'home_town': info['home_town'],
-                     'sex': info['sex'],
-                     'city': info['city']['title'],
-                     'bdate': info['bdate']
+                     'sex': info.get('sex'),
+                     'city': info.get('city')['title'] if info.get('city') is not None else None,
+                     'bdate': self._bdate_toyear(info.get('bdate'))
                      }
         return result
     #
