@@ -41,10 +41,11 @@ class VkTools():
                      }
         return result
 
-    def serch_worksheet(self, params):  #находим пользователей
+    def serch_worksheet(self, params, offset):  #находим пользователей
         try:
             users = self.vkapi.method('users.search',
                                     {'count': 50,
+                                     'offset': offset,
                                      'hometown': params['city'],
                                      'sex': 1 if params['sex'] ==2 else 2,
                                      'has_photo': True,
@@ -69,14 +70,34 @@ class VkTools():
                 photos = self.vkapi.method('photos.get',
                                            {'owner_id': id,
                                             'album_id': 'profile',
-                                            'extendet': 1   #параметр говорит о том - какая информация нужна о фото
+                                            'extended': 1   #параметр говорит о том - какая информация нужна о фото
                                             }
                                             )
         except ApiError as e:
                 photos = {}
                 print(f'error = {e}')
 
-        return photos
+        result = [{'owner_id': item['owner_id'],
+                   'id': item['id'],
+                   'likes': item['likes']['count'],
+                   'comments': item['comments']['count']
+                   } for item in photos['items']  #автоматический генератор листа
+                  ]
+        return result[:3]  # берем первые три анкеты
+
+        '''сортировка по лайкам и комментам'''
+        for photo in photos:
+            res.append({'owner_id': photo['owner_id'],
+                        'id': photo['id'],
+                        'likes': photo['likes']['count'],
+                        'comments': photo['comments']['count'],
+                        }
+                       )
+
+        res.sort(key=lambda x: x['likes'] + x['comments'] * 10, reverse=True)
+
+        return res
+
 
 
 
@@ -110,28 +131,28 @@ class VkTools():
     #
     #     res = []
     #
-    #     for photo in photos:
-    #         res.append({'owner_id': photo['owner_id'],
-    #                     'id': photo['id'],
-    #                     'likes': photo['likes']['count'],
-    #                     'comments': photo['comments']['count'],
-    #                     }
-    #                    )
-    #
-    #     res.sort(key=lambda x: x['likes'] + x['comments'] * 10, reverse=True)
-    #
-    #     return res
+        for photo in photos:
+            res.append({'owner_id': photo['owner_id'],
+                        'id': photo['id'],
+                        'likes': photo['likes']['count'],
+                        'comments': photo['comments']['count'],
+                        }
+                       )
+
+        res.sort(key=lambda x: x['likes'] + x['comments'] * 10, reverse=True)
+
+        return res
     #
 
 if __name__ == '__main__':
     user_id = 807607725
     tools = VkTools(acces_token)
     params = tools.get_profile_info(user_id)
-    worksheets = tools.serch_worksheet(params)
+    worksheets = tools.serch_worksheet(params, 20)
     worksheet = worksheets.pop() #метод 'pop' берет последний элемент списка, сохранияет его в переменную, но при этом он ее удаляет из списка
     photos = tools.get_photos(worksheet['id'])
 
-    pprint(photos)
+    pprint(worksheets)
     # bot = VkTools(acces_token)
     # params = bot.get_profile_info(789657038)
     # users = bot.serch_users(params)
